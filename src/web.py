@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 #
 import cherrypy
 import json
@@ -6,7 +9,9 @@ import redis
 from cherrypy import expose
 from xml.sax.saxutils import escape
 
-READ_COMMANDS = 'hexists hlen hget hgetall exists type scan randomkey keys ttl pttl get mget strlen getrange getbit bitcount llen lindex lrange info time dbsize echo ping'.split()
+READ_COMMANDS = \
+    'hexists hlen hget hgetall exists type scan randomkey keys ttl pttl get mget strlen getrange getbit bitcount llen lindex lrange info time dbsize echo ping'.split()
+
 
 class Root(object):
 
@@ -26,7 +31,8 @@ class Root(object):
         port = 6379
         yield '<script type="text/javascript" src="static/js/jquery-2.1.1.min.js"></script>'
         yield '<script type="text/javascript" src="static/js/jquery.autocomplete.min.js"></script>'
-        yield '<form method="POST">{host}:{port}&gt; <input name="cmd"/><a href="http://redis.io/commands">?</a></form>'.format(host=host, port=port)
+        yield '<form method="POST">{host}:{port}&gt; <input name="cmd"/><a href="http://redis.io/commands">?</a></form>'.format(host=host,
+                port=port)
         if cmd:
             cmd, args = self.parse_cmd(cmd)
             con = redis.StrictRedis(host, port)
@@ -41,7 +47,7 @@ class Root(object):
                     yield escape(json.dumps(result))
             except Exception, e:
                 yield escape(str(e))
-            
+
             yield '</pre>'
         yield '''<script>var options, a;
 jQuery(function(){
@@ -49,8 +55,7 @@ jQuery(function(){
     a = $('input').autocomplete(options);
 }); </script>'''
 
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
-conf = {'/static': {'tools.staticdir.on': True,
-                      'tools.staticdir.dir': os.path.join(current_dir, 'static'),
-                                                        }}
+conf = {'/static': {'tools.staticdir.on': True, 'tools.staticdir.dir': os.path.join(current_dir, 'static')}}
 cherrypy.quickstart(Root(), '/', config=conf)
