@@ -1,0 +1,20 @@
+body {
+     font: 13px Arial, Helvetica, sans-serif;
+     background: #eee;
+}
+
+header input {
+    width: 80%;
+}
+header p {
+    float: right;
+}
+
+.autocomplete-suggestions {
+    background: #fff;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+.autocomplete-selected {
+    background: #eee;
+}
